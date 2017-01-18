@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/SilentByte/opstatic/issues"
   },
-  "homepage": "https://github.com/SilentByte/opstatic#readme"
+  "homepage": "https://github.com/SilentByte/opstatic#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "minimist": "^1.2.0"
+  }
 }
