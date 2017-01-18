@@ -30,6 +30,7 @@ const gulp = require('gulp');
 const htmlmin = require('gulp-htmlmin');
 const cleancss = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
+const optipng = require('gulp-optipng');
 
 const args = minimist(process.argv.slice(2));
 
@@ -53,7 +54,8 @@ const args = minimist(process.argv.slice(2));
             path.join(args.i, '**/*'),
             '!**/*.html',
             '!**/*.css',
-            '!**/*.js'
+            '!**/*.js',
+            '!**/*.png'
         ]).pipe(gulp.dest(args.o));
     });
 
@@ -81,12 +83,19 @@ const args = minimist(process.argv.slice(2));
             .pipe(gulp.dest(args.o));
     });
 
+    gulp.task('optimize:png', function() {
+        return gulp.src(path.join(args.i, '**/*.png'))
+            .pipe(optipng(['-o9']))
+            .pipe(gulp.dest(args.o));
+    });
+
     // Main Task.
     gulp.task('opstatic', [
         'copy:static',
         'optimize:html',
         'optimize:css',
-        'optimize:js'
+        'optimize:js',
+        'optimize:png'
     ]);
 
     gulp.start('opstatic');
