@@ -1,0 +1,27 @@
+{
+  "name": "opstatic",
+  "version": "1.0.0",
+  "description": "Improves static HTML sites by optimizing HTML, CSS, JavaScript, and and image files.",
+  "main": "opstatic.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SilentByte/opstatic.git"
+  },
+  "keywords": [
+    "optimization",
+    "static",
+    "htmlmin",
+    "cssmin",
+    "jsmin",
+    "optipng"
+  ],
+  "author": "Rico A. Beti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SilentByte/opstatic/issues"
+  },
+  "homepage": "https://github.com/SilentByte/opstatic#readme"
+}
