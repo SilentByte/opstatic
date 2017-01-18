@@ -24,8 +24,10 @@
 'use strict';
 
 const path = require('path');
-const gulp = require('gulp');
 const minimist = require('minimist');
+
+const gulp = require('gulp');
+const htmlmin = require('gulp-htmlmin');
 
 const args = minimist(process.argv.slice(2));
 
@@ -46,18 +48,31 @@ const args = minimist(process.argv.slice(2));
     // Pipe through all files that will not be modified.
     gulp.task('copy:static', function() {
         return gulp.src([
-                path.join(args.i, '**/*'),
-                '!**/*.html',
-                '!**/*.css',
-                '!**/*.js'
-            ]
-        ).pipe(gulp.dest(args.o));
+            path.join(args.i, '**/*'),
+            '!**/*.html',
+            '!**/*.css',
+            '!**/*.js'
+        ]).pipe(gulp.dest(args.o));
     });
 
-    gulp.task('optimize', [
-        'copy:static'
+    // Minify HTML.
+    gulp.task('optimize:html', function() {
+        return gulp.src(path.join(args.i, '**/*.html'))
+            .pipe(htmlmin({
+                collapseWhitespace: true,
+                removeComments: true,
+                minifyCSS: true,
+                minifyJS: true
+            }))
+            .pipe(gulp.dest(args.o));
+    });
+
+    // Main Task.
+    gulp.task('opstatic', [
+        'copy:static',
+        'optimize:html'
     ]);
 
-    gulp.start('optimize');
+    gulp.start('opstatic');
 })();
 

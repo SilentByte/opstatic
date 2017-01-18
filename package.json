@@ -26,6 +26,7 @@
   "homepage": "https://github.com/SilentByte/opstatic#readme",
   "dependencies": {
     "gulp": "^3.9.1",
+    "gulp-htmlmin": "^3.0.0",
     "minimist": "^1.2.0"
   }
 }
