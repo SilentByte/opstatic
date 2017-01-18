@@ -28,6 +28,7 @@ const minimist = require('minimist');
 
 const gulp = require('gulp');
 const htmlmin = require('gulp-htmlmin');
+const cleancss = require('gulp-clean-css');
 
 const args = minimist(process.argv.slice(2));
 
@@ -67,10 +68,17 @@ const args = minimist(process.argv.slice(2));
             .pipe(gulp.dest(args.o));
     });
 
+    gulp.task('optimize:css', function() {
+        return gulp.src(path.join(args.i, '**/*.css'))
+            .pipe(cleancss())
+            .pipe(gulp.dest(args.o));
+    });
+
     // Main Task.
     gulp.task('opstatic', [
         'copy:static',
-        'optimize:html'
+        'optimize:html',
+        'optimize:css'
     ]);
 
     gulp.start('opstatic');
