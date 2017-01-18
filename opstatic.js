@@ -38,18 +38,27 @@ const args = minimist(process.argv.slice(2));
 (function() {
     args.i = args.i ? args.i : args._[0];
     args.o = args.o ? args.o : args._[1];
+    args.h = (args.h || args.help);
+    args.v = (args.v || args.version);
 
-    if(!args.i || !args.o) {
-        console.log('OpStatic Static Site Optimizer');
+    if(args.v) {
+        console.log('SilentByte OpStatic v1.0');
+        return;
+    }
+
+    if(args.h || !args.i || !args.o) {
+        console.log('SilentByte OpStatic Static Site Optimizer');
         console.log('');
-        console.log('Usage:   node opstatic.js [options] input-dir output-dir');
-        console.log('Options: -i   Input directory.');
-        console.log('         -o   Output directory.');
+        console.log('Usage:   node opstatic.js [options] -- input-dir output-dir');
+        console.log('Options: -h, --help         Usage information.');
+        console.log('         -i, --input        Input directory.');
+        console.log('         -o, --output       Output directory.');
         return;
     }
 
     // Pipe through all files that will not be modified.
     gulp.task('copy:static', function() {
+        console.log('Copying files that will not be touched.');
         return gulp.src([
             path.join(args.i, '**/*'),
             '!**/*.html',
@@ -61,6 +70,7 @@ const args = minimist(process.argv.slice(2));
 
     // Minify HTML.
     gulp.task('optimize:html', function() {
+        console.log('Optimizing HTML files.');
         return gulp.src(path.join(args.i, '**/*.html'))
             .pipe(htmlmin({
                 collapseWhitespace: true,
@@ -71,19 +81,25 @@ const args = minimist(process.argv.slice(2));
             .pipe(gulp.dest(args.o));
     });
 
+    // Minify CSS.
     gulp.task('optimize:css', function() {
+        console.log('Optimizing CSS files.');
         return gulp.src(path.join(args.i, '**/*.css'))
             .pipe(cleancss())
             .pipe(gulp.dest(args.o));
     });
 
+    // Uglify JS.
     gulp.task('optimize:js', function() {
+        console.log('Optimizing JavaScript files.');
         return gulp.src(path.join(args.i, '**/*.js'))
             .pipe(uglify())
             .pipe(gulp.dest(args.o));
     });
 
+    // Compress PNGs.
     gulp.task('optimize:png', function() {
+        console.log('Optimizing PNG images.');
         return gulp.src(path.join(args.i, '**/*.png'))
             .pipe(optipng(['-o9']))
             .pipe(gulp.dest(args.o));
